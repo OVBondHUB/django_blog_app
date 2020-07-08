@@ -1,23 +1,30 @@
-from django.shortcuts import render
+from django.views.generic import View
 
 from .models import Post, Tag
+from .utils import ObjectDetailMixin, ObjectListMixin
 
 
-def post_list(request):
-    posts = Post.objects.all()
-    return render(request, 'blog/index.html', context={'posts': posts, "request": request})
+class PostDetail(ObjectDetailMixin, View):
+    model = Post
+    template = 'blog/post_detail.html'
 
 
-def post_detail(request, slug):
-    post = Post.objects.get(slug__iexact=slug)
-    return render(request, 'blog/post_detail.html', context={'post': post})
+class PostList(ObjectListMixin, View):
+    model = Post
+    template = 'blog/index.html'
+    context_list_name = 'posts'
 
 
-def tag_list(request):
-    tags = Tag.objects.all()
-    return render(request, 'blog/tags.html', context={'tags': tags})
+class TagDetail(ObjectDetailMixin, View):
+    model = Tag
+    template = 'blog/tag_detail.html'
 
 
-def tag_detail(request, slug):
-    tag = Tag.objects.get(slug__iexact=slug)
-    return render(request, 'blog/tag_detail.html', context={'tag': tag})
+class TagList(ObjectListMixin, View):
+    model = Tag
+    template = 'blog/tags.html'
+    context_list_name = 'tags'
+
+
+
+
