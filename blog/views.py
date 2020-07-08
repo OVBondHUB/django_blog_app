@@ -1,8 +1,9 @@
 from django.shortcuts import render
 
+from .models import Post
+
 
 def post_list(request):
-    # TODO: Add posts
-    posts = ['Post A', 'Post B']
-    return render(request, 'blog/index.html', context={'posts': posts})
+    posts = Post.objects.all()
+    return render(request, 'blog/index.html', context={'posts': posts, "request": request})
 
